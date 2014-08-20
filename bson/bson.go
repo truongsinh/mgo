@@ -267,7 +267,9 @@ func (id ObjectId) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON turns *bson.ObjectId into a json.Unmarshaller.
 func (id *ObjectId) UnmarshalJSON(data []byte) error {
 	if len(data) != 26 || data[0] != '"' || data[25] != '"' {
-		return errors.New(fmt.Sprintf("Invalid ObjectId in JSON: %s", string(data)))
+		// return errors.New(fmt.Sprintf("Invalid ObjectId in JSON: %s", string(data)))
+		*id = ""
+		return nil
 	}
 	var buf [12]byte
 	_, err := hex.Decode(buf[:], data[1:25])
